@@ -1,0 +1,39 @@
+# Compiled test binaries
+vocab_test
+encoder_test
+embed_test
+attn_test
+mha_test
+ffn_test
+layernorm_test
+block_test
+lmhead_test
+train_test
+infer_test
+pipeline_test
+
+# Main driver binary
+miniGPT
+
+# Object files
+*.o
+*.obj
+
+# Saved model / vocab artifacts
+*.bin
+*.tsv
+
+# Training data (download separately)
+training.txt
+
+# Symlink to the morphology lexicon (machine-specific)
+/data
+
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+*~
+.vscode/
+.idea/
