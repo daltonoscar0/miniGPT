@@ -1,7 +1,7 @@
-// encoder_test.cpp  —  Unit tests for miniGPT::Encoder
+// encoder_test.cpp, Unit tests for miniGPT::Encoder
 //
 // Tests the Encoder in isolation using hand-crafted analysis
-// strings — no Scalpel or Morphology dependency needed here.
+// strings, no Scalpel or Morphology dependency needed here.
 //
 // Build (from miniGPT/):
 //   make encoder_test && ./encoder_test
@@ -99,7 +99,7 @@ void test_truncation() {
     Encoder enc(v, /*max_len=*/5);
 
     // 6 tokens but only room for 3 content (max_len=5: BOS+3+EOS)
-    // Tail truncation → keep last 3: cat+N+PL sit+V+PAST quick+ADJ
+    // Tail truncation -> keep last 3: cat+N+PL sit+V+PAST quick+ADJ
     std::vector<std::string> long_seq = {
         "the+DET",   // dropped
         "run+V+INF", // dropped
@@ -226,7 +226,7 @@ void test_min_length_constructor() {
     Encoder enc(v, /*max_len=*/2);
 
     auto seq = enc.encode({"cat+N+SG", "run+V+INF"});
-    // No room for content — BOS + EOS only, everything truncated
+    // No room for content, BOS + EOS only, everything truncated
     CHECK(seq.ids.size() == 2);
     CHECK(seq.ids[0] == kBOS_ID);
     CHECK(seq.ids[1] == kEOS_ID);

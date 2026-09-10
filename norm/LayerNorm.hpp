@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  LayerNorm.hpp  —  Layer normalization
+//  LayerNorm.hpp, Layer normalization
 //
 //  Applied after attention and after the FFN sublayer within
 //  each transformer block (pre-norm arrangement used here).
@@ -28,7 +28,7 @@
 //  ──────────────────────
 //  Original transformer: norm AFTER residual (post-norm).
 //  GPT-2 and most modern models: norm BEFORE sublayer (pre-norm).
-//  We use pre-norm: LayerNorm → sublayer → residual add.
+//  We use pre-norm: LayerNorm -> sublayer -> residual add.
 //  Pre-norm is easier to train from scratch without careful
 //  learning rate warmup.
 //

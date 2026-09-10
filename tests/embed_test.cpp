@@ -1,4 +1,4 @@
-// embed_test.cpp  —  Unit tests for miniGPT::EmbeddingTable
+// embed_test.cpp, Unit tests for miniGPT::EmbeddingTable
 //
 // Build (from miniGPT/):
 //   make embed_test && ./embed_test
@@ -188,7 +188,7 @@ void test_forward_padding_is_zero() {
 
     auto X = emb.forward(ids, mask);   // [5 × 8]
 
-    // Positions 3 and 4 are padding — must be zero
+    // Positions 3 and 4 are padding, must be zero
     for (std::size_t d = 0; d < 8; ++d) {
         CHECK(X.at(3, d) == 0.f);
         CHECK(X.at(4, d) == 0.f);

@@ -1,4 +1,4 @@
-// vocab_test.cpp  —  Unit tests for miniGPT::Vocab
+// vocab_test.cpp, Unit tests for miniGPT::Vocab
 //
 // Build:   g++ -std=c++17 -Wall -Wextra -o vocab_test vocab_test.cpp && ./vocab_test
 // (no other dependencies)
@@ -37,7 +37,7 @@ void test_specials() {
     // Size starts at 4 (PAD UNK BOS EOS)
     CHECK(v.size() == 4);
 
-    // Reserved IDs are exactly 0–3
+    // Reserved IDs are exactly 0-3
     CHECK(v.encode(kPAD) == kPAD_ID);
     CHECK(v.encode(kUNK) == kUNK_ID);
     CHECK(v.encode(kBOS) == kBOS_ID);
@@ -59,17 +59,17 @@ void test_add_and_encode() {
     SECTION("add() and encode()");
     Vocab v;
 
-    // First insertion → new ID (starts at 4)
+    // First insertion -> new ID (starts at 4)
     TokenID cat_id = v.add("cat+N+SG");
     CHECK(cat_id == 4);
     CHECK(v.size() == 5);
 
-    // Duplicate insertion → same ID
+    // Duplicate insertion -> same ID
     TokenID cat_id2 = v.add("cat+N+SG");
     CHECK(cat_id2 == cat_id);
     CHECK(v.size() == 5);
 
-    // Different type → next ID
+    // Different type -> next ID
     TokenID cats_id = v.add("cat+N+PL");
     CHECK(cats_id == 5);
 
@@ -77,7 +77,7 @@ void test_add_and_encode() {
     CHECK(v.encode("cat+N+SG") == cat_id);
     CHECK(v.encode("cat+N+PL") == cats_id);
 
-    // Unknown type → kUNK_ID
+    // Unknown type -> kUNK_ID
     CHECK(v.encode("nonexistent+X") == kUNK_ID);
 
     // contains() works
@@ -123,7 +123,7 @@ void test_morphological_analyses() {
         CHECK(v.decode(id) == a);
     }
 
-    // Morphologically distinct → distinct IDs
+    // Morphologically distinct -> distinct IDs
     CHECK(v.encode("run+V+INF") != v.encode("run+V+PAST"));
     CHECK(v.encode("cat+N+SG") != v.encode("cat+N+PL"));
 }
@@ -210,7 +210,7 @@ void test_freeze_flag() {
     CHECK(!v.is_frozen());
     v.freeze();
     CHECK(v.is_frozen());
-    // freeze() doesn't actually block add() — it's advisory
+    // freeze() doesn't actually block add(), it's advisory
     // (the training loop uses it as a sentinel, not a hard lock)
     v.add("cat+N+SG");  // should still work
     CHECK(v.size() == 5);

@@ -1,6 +1,6 @@
 # miniGPT
 
-A GPT-style transformer language model built from scratch in C++17 — no
+A GPT-style transformer language model built from scratch in C++17, no
 PyTorch, no BLAS, no autograd. Every component, including the full backward
 pass, is implemented and tested by hand.
 
@@ -22,8 +22,8 @@ Token IDs
   -> probabilities
 ```
 
-Default configuration is small by design — 2 layers, 4 heads, d_model=128,
-~1M parameters — so the whole thing trains on a CPU and stays easy to reason
+Default configuration is small by design, 2 layers, 4 heads, d_model=128,
+~1M parameters, so the whole thing trains on a CPU and stays easy to reason
 about.
 
 ## Components
@@ -95,7 +95,7 @@ ln -s ../morphology/data data
 
 - **Tensors** are a single `Matrix2D` type: a row-major `std::vector<float>`
   with shape annotations in comments (`// [seq_len x d_model]`).
-- **Manual backprop** — every component implements its own `backward()` and is
+- **Manual backprop**, every component implements its own `backward()` and is
   verified with finite-difference gradient checks where applicable.
 - **Pre-norm** transformer blocks, following GPT-2, for stable training from
   scratch.
@@ -104,4 +104,4 @@ ln -s ../morphology/data data
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

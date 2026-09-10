@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  MiniGPT.hpp  —  Full GPT-style language model
+//  MiniGPT.hpp, Full GPT-style language model
 //
 //  Architecture
 //  ────────────

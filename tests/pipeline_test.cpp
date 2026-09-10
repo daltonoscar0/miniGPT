@@ -1,4 +1,4 @@
-// pipeline_test.cpp  —  Integration test for TextPipeline + Encoder
+// pipeline_test.cpp, Integration test for TextPipeline + Encoder
 //
 // Requires Scalpel and Morphology compiled in.
 // Build and run from miniGPT/:
@@ -71,10 +71,10 @@ void test_process_simple(TextPipeline& pipeline) {
 
     auto& s = sentences[0];
 
-    // "cats" → "cat+N+PL"
+    // "cats" -> "cat+N+PL"
     CHECK(any_contains(s, "cat+N+PL"));
 
-    // "sat" → "sit+V+PAST"  (irregular: sit → sat)
+    // "sat" -> "sit+V+PAST"  (irregular: sit -> sat)
     CHECK(any_contains(s, "sit+V+PAST"));
 
     // Print what we got for visibility
@@ -101,13 +101,13 @@ void test_process_morphological_variety(TextPipeline& pipeline) {
     // Covers: irregular verb, Y_FINAL noun, derivational suffix
     auto flat = pipeline.process_flat("mice walk quickly");
 
-    // mice → mouse+N+PL  (irregular plural)
+    // mice -> mouse+N+PL  (irregular plural)
     CHECK(any_contains(flat, "mouse+N+PL"));
 
-    // walk → walk+V  (base form, no suffix)
+    // walk -> walk+V  (base form, no suffix)
     CHECK(any_contains(flat, "walk+V"));
 
-    // quickly → quick+ADJ+ly>ADV  (derivational)
+    // quickly -> quick+ADJ+ly>ADV  (derivational)
     CHECK(any_contains(flat, "quick"));
 
     std::cout << "  Tokens: ";
@@ -184,7 +184,7 @@ int main() {
     std::cout << "miniGPT — Pipeline integration tests\n";
     std::cout << "=====================================\n";
 
-    // Initialise once — this loads the full English lexicon
+    // Initialise once, this loads the full English lexicon
     std::cout << "\nInitialising TextPipeline (loading English lexicon)...\n";
     TextPipeline pipeline;
     std::cout << "Loaded " << pipeline.lexeme_count() << " lexemes.\n";

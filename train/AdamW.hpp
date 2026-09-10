@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  AdamW.hpp  —  AdamW optimizer
+//  AdamW.hpp, AdamW optimizer
 //
 //  AdamW = Adam with decoupled weight decay.
 //  (Loshchilov & Hutter, 2019)

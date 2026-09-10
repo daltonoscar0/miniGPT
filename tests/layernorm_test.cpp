@@ -1,4 +1,4 @@
-// layernorm_test.cpp  —  Unit tests for LayerNorm
+// layernorm_test.cpp, Unit tests for LayerNorm
 //
 // Build (from miniGPT/):
 //   make layernorm_test && ./layernorm_test

@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  Trainer.hpp  —  Training loop for MiniGPT
+//  Trainer.hpp, Training loop for MiniGPT
 //
 //  Wires together:
 //    - MiniGPT model (forward + backward)
@@ -11,7 +11,7 @@
 //
 //  Training step (one batch of one sequence)
 //  ──────────────────────────────────────────
-//  1. Encode analyses → (input_ids, target_ids, mask)
+//  1. Encode analyses -> (input_ids, target_ids, mask)
 //  2. model.zero_grad()
 //  3. loss = model.forward_loss(input_ids, mask, target_ids)
 //  4. model.backward(cache)
@@ -57,7 +57,7 @@ public:
         register_all_params();
     }
 
-    // Single training step — returns loss
+    // Single training step, returns loss
     float train_step(const std::vector<TokenID>& input_ids,
                      const std::vector<bool>&    mask,
                      const std::vector<TokenID>& target_ids)
@@ -142,7 +142,7 @@ private:
     void register_all_params() {
         auto& m = model_;
 
-        // Embedding — no weight decay
+        // Embedding, no weight decay
         opt_.register_param(m.embed().E(), m.embed().dE(), false);
 
         // Transformer blocks

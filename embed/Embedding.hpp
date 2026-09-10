@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  Embedding.hpp  —  Token embeddings + positional encodings
+//  Embedding.hpp, Token embeddings + positional encodings
 //
 //  This is the first component with learned parameters.
 //  It converts a sequence of TokenIDs into a float matrix
@@ -13,7 +13,7 @@
 //     A learned weight matrix.  Row i is the embedding vector
 //     for token ID i.  Initialised with Xavier uniform.
 //     <PAD> (ID 0) is always the zero vector and stays that
-//     way — padding should contribute nothing.
+//     way, padding should contribute nothing.
 //
 //  2. Positional encoding     PE  [max_len × d_model]
 //     Fixed (not learned) sinusoidal encodings.  Row p gives
@@ -41,9 +41,9 @@
 //
 //  Dimensions (compile-time defaults, runtime-configurable)
 //  ─────────────────────────────────────────────────────────
-//  vocab_size  — from Vocab::size()  (e.g. ~2000–8000)
-//  d_model     — 128   (set at construction)
-//  max_len     — 64    (must match Encoder::max_len)
+//  vocab_size, from Vocab::size()  (e.g. ~2000-8000)
+//  d_model, 128   (set at construction)
+//  max_len, 64    (must match Encoder::max_len)
 //
 //  Storage layout: row-major std::vector<float>
 //  Matrix M[r][c] = M_data[r * cols + c]
@@ -200,7 +200,7 @@ public:
 
     // ── Parameter update (AdamW will replace this later) ──
 
-    // Simple SGD step — for smoke-testing the backward pass.
+    // Simple SGD step, for smoke-testing the backward pass.
     // AdamW will be wired in during the training loop (component ⑩).
     void sgd_step(float lr) {
         for (std::size_t i = 0; i < vocab_size_; ++i) {
@@ -251,7 +251,7 @@ public:
             throw std::runtime_error("Embedding shape mismatch on load");
         f.read(reinterpret_cast<char*>(E_.data.data()),
                static_cast<std::streamsize>(E_.data.size() * sizeof(float)));
-        // Verify the full payload was actually read — reject truncated files.
+        // Verify the full payload was actually read, reject truncated files.
         if (f.gcount() != static_cast<std::streamsize>(E_.data.size() * sizeof(float)))
             throw std::runtime_error("Embedding file payload truncated: " + path);
     }

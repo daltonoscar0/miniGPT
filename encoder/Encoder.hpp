@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  Encoder.hpp  —  Text → TokenID sequence converter
+//  Encoder.hpp, Text -> TokenID sequence converter
 //
 //  Takes a sequence of morphological analysis strings (already
 //  produced by the TextPipeline or supplied directly) and maps
@@ -12,7 +12,7 @@
 //  ────────────────
 //  1. Wrap the sequence with <BOS> and <EOS>
 //  2. Look up each analysis string in the Vocab
-//     (unknown → kUNK_ID)
+//     (unknown -> kUNK_ID)
 //  3. Truncate to max_len if too long  (tail-truncation:
 //     keep the most recent tokens so context is preserved)
 //  4. Pad to exactly max_len with <PAD> if too short
@@ -22,8 +22,8 @@
 //
 //  The encoder also produces a boolean attention mask of the
 //  same length:
-//    mask[i] = true  → real token (attend to it)
-//    mask[i] = false → padding    (ignore in attention)
+//    mask[i] = true  -> real token (attend to it)
+//    mask[i] = false -> padding    (ignore in attention)
 //
 //  Truncation policy
 //  ─────────────────
@@ -34,8 +34,8 @@
 //  most recent context.
 //
 //    max_len = 6, analyses = [A B C D E F G H]
-//    → keep last 4: [E F G H]
-//    → wrap:        [<BOS> E F G H <EOS>]    length = 6 ✓
+//    -> keep last 4: [E F G H]
+//    -> wrap:        [<BOS> E F G H <EOS>]    length = 6 
 //
 //  Encoding a batch
 //  ────────────────
@@ -55,8 +55,8 @@ namespace miniGPT {
 // ── EncodedSequence ───────────────────────────────────────
 // Plain struct so the training loop can destructure easily.
 struct EncodedSequence {
-    std::vector<TokenID> ids;   // [max_len] — always exactly max_len long
-    std::vector<bool>    mask;  // [max_len] — true = real token
+    std::vector<TokenID> ids;   // [max_len], always exactly max_len long
+    std::vector<bool>    mask;  // [max_len], true = real token
     std::size_t          n_real; // number of non-padding tokens
 };
 

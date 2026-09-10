@@ -1,22 +1,22 @@
 #pragma once
 
 // ============================================================
-//  TextPipeline.hpp  —  Scalpel + Morphology integration layer
+//  TextPipeline.hpp, Scalpel + Morphology integration layer
 //
 //  This is the only file in miniGPT that touches the upstream
 //  libraries.  Everything downstream (Encoder, Vocab, training
 //  loop) works purely with std::string analysis keys and
-//  TokenIDs — they never see a Token struct or an Analysis.
+//  TokenIDs, they never see a Token struct or an Analysis.
 //
 //  Pipeline
 //  ────────
 //  Raw string
 //    │  Scalpel (via Morphology's text_pipeline.h)
 //    ▼
-//  vector<vector<string>>   ← sentences of surface word strings
+//  vector<vector<string>>   <- sentences of surface word strings
 //    │  Morphology Analyzer::analyze() per word
 //    ▼
-//  vector<vector<string>>   ← sentences of canonical analysis keys
+//  vector<vector<string>>   <- sentences of canonical analysis keys
 //
 //  Canonicalisation rules
 //  ──────────────────────
@@ -24,24 +24,24 @@
 //  formats.  We normalise them all to a single key style so
 //  the Vocab sees consistent atoms:
 //
-//    Inflected:    "cat +N +PL"        → "cat+N+PL"
-//    Base form:    "run +V"            → "run+V"
-//    Prefixed:     "un- + kind +ADJ"   → "un+kind+ADJ"
-//    Derivational: "dark +ADJ [-ness ->N]" → "dark+ADJ+ness>N"
+//    Inflected:    "cat +N +PL"        -> "cat+N+PL"
+//    Base form:    "run +V"            -> "run+V"
+//    Prefixed:     "un- + kind +ADJ"   -> "un+kind+ADJ"
+//    Derivational: "dark +ADJ [-ness ->N]" -> "dark+ADJ+ness>N"
 //
 //  Non-word tokens (PUNCT, NUMBER, ABBREVIATION, CONTRACTION,
 //  HYPHENATED) pass through as surface-form tags:
 //
-//    "."   → "<PUNCT:.>"
-//    "42"  → "<NUM:42>"
-//    "Dr." → "<ABBR:Dr.>"
-//    "can't" → "<CONTR:can't>"
-//    "state-of-the-art" → "<HYPH:state-of-the-art>"
+//    "."   -> "<PUNCT:.>"
+//    "42"  -> "<NUM:42>"
+//    "Dr." -> "<ABBR:Dr.>"
+//    "can't" -> "<CONTR:can't>"
+//    "state-of-the-art" -> "<HYPH:state-of-the-art>"
 //
 //  Ambiguity
 //  ─────────
 //  Morphology returns analyses sorted by weight descending.
-//  We take analyses[0] — the highest-weight (most likely)
+//  We take analyses[0], the highest-weight (most likely)
 //  reading.  Words with no analysis fall back to:
 //    "<WORD:surface>"
 //
@@ -95,7 +95,7 @@ inline std::string canonicalise(const std::string& raw) {
     std::string s = raw;
 
     // 1. Handle prefixed form: "un- + kind +ADJ"
-    //    Detect "- + " pattern → replace with "+"
+    //    Detect "- + " pattern -> replace with "+"
     {
         auto pos = s.find("- + ");
         if (pos != std::string::npos) {
@@ -120,7 +120,7 @@ inline std::string canonicalise(const std::string& raw) {
     }
 
     // 3. Remove all spaces around '+' signs
-    //    "cat +N +PL" → "cat+N+PL"
+    //    "cat +N +PL" -> "cat+N+PL"
     std::string result;
     result.reserve(s.size());
     for (std::size_t i = 0; i < s.size(); ++i) {
@@ -171,7 +171,7 @@ public:
     process(const std::string& text) const
     {
         // Phase 1: Scalpel tokenises + segments via Morphology bridge
-        // Returns vector<vector<string>> — sentences of surface words
+        // Returns vector<vector<string>>, sentences of surface words
         auto sentences = segment_into_sentences(text);
 
         std::vector<std::vector<std::string>> result;
@@ -246,7 +246,7 @@ private:
         auto analyses = analyzer_.analyze(word);
 
         if (analyses.empty()) {
-            // No analysis found — fall back to lowercased surface form
+            // No analysis found, fall back to lowercased surface form
             std::string lower = word;
             std::transform(lower.begin(), lower.end(), lower.begin(),
                 [](unsigned char c){ return std::tolower(c); });

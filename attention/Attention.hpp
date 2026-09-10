@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  Attention.hpp  —  Scaled dot-product attention
+//  Attention.hpp, Scaled dot-product attention
 //
 //  Implements the core attention operation from
 //  "Attention Is All You Need" (Vaswani et al., 2017):
@@ -22,9 +22,9 @@
 //  Causal mask
 //  ───────────
 //  For position (i, j):
-//    j <= i  →  0       (can attend: past and present)
-//    j >  i  →  -∞      (cannot attend: future)
-//  Applied as additive bias before softmax so -∞ → exp(-∞) = 0.
+//    j <= i  ->  0       (can attend: past and present)
+//    j >  i  ->  -∞      (cannot attend: future)
+//  Applied as additive bias before softmax so -∞ -> exp(-∞) = 0.
 //  We use -1e9 as a practical stand-in for -∞.
 //
 //  Padding mask
@@ -66,7 +66,7 @@ constexpr float kNegInf = -1e9f;   // practical −∞ for masking
 // These are used by attention and will be reused by FFN, LayerNorm, etc.
 
 // Matrix multiply: C = A · B
-// A [m × k], B [k × n] → C [m × n]
+// A [m × k], B [k × n] -> C [m × n]
 inline Matrix2D matmul(const Matrix2D& A, const Matrix2D& B) {
     if (A.cols != B.rows)
         throw std::invalid_argument(
@@ -85,7 +85,7 @@ inline Matrix2D matmul(const Matrix2D& A, const Matrix2D& B) {
 }
 
 // Matrix multiply with transpose on right: C = A · Bᵀ
-// A [m × k], B [n × k] → C [m × n]
+// A [m × k], B [n × k] -> C [m × n]
 inline Matrix2D matmul_bt(const Matrix2D& A, const Matrix2D& B) {
     if (A.cols != B.cols)
         throw std::invalid_argument(
@@ -104,7 +104,7 @@ inline Matrix2D matmul_bt(const Matrix2D& A, const Matrix2D& B) {
 }
 
 // Matrix multiply with transpose on left: C = Aᵀ · B
-// A [k × m], B [k × n] → C [m × n]
+// A [k × m], B [k × n] -> C [m × n]
 inline Matrix2D matmul_at(const Matrix2D& A, const Matrix2D& B) {
     if (A.rows != B.rows)
         throw std::invalid_argument(
@@ -123,7 +123,7 @@ inline Matrix2D matmul_at(const Matrix2D& A, const Matrix2D& B) {
 }
 
 // Transpose: B = Aᵀ
-// A [m × n] → B [n × m]
+// A [m × n] -> B [n × m]
 inline Matrix2D transpose(const Matrix2D& A) {
     Matrix2D B(A.cols, A.rows);
     for (std::size_t i = 0; i < A.rows; ++i)
@@ -195,7 +195,7 @@ public:
     // @param Q      [seq_len × d_k]
     // @param K      [seq_len × d_k]
     // @param V      [seq_len × d_v]
-    // @param mask   [seq_len] — true = real token, false = padding
+    // @param mask   [seq_len], true = real token, false = padding
     // @param causal  true for LM (can't see future positions)
     // @param cache   filled with intermediates for backward pass
     // @returns       [seq_len × d_v]

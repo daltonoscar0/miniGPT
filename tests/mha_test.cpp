@@ -1,4 +1,4 @@
-// mha_test.cpp  —  Unit tests for MultiHeadAttention
+// mha_test.cpp, Unit tests for MultiHeadAttention
 //
 // Build (from miniGPT/):
 //   make mha_test && ./mha_test

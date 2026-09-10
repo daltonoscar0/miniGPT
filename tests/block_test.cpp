@@ -1,4 +1,4 @@
-// block_test.cpp  —  Unit tests for TransformerBlock
+// block_test.cpp, Unit tests for TransformerBlock
 //
 // Build (from miniGPT/):
 //   make block_test && ./block_test

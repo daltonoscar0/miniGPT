@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  Vocab.hpp  —  Vocabulary builder for miniGPT
+//  Vocab.hpp, Vocabulary builder for miniGPT
 //  Maps morphological analysis strings to integer token IDs.
 //
 //  Design notes
@@ -14,14 +14,14 @@
 //
 //  A token ID is just a 32-bit integer index into the ordered
 //  vocabulary list.  The Vocab object owns the bidirectional
-//  maps: string→id and id→string.
+//  maps: string->id and id->string.
 //
 //  Special tokens
 //  ──────────────
-//  ID 0  →  <PAD>   padding (zero embedding, masked in attn)
-//  ID 1  →  <UNK>   unknown analysis
-//  ID 2  →  <BOS>   beginning of sequence
-//  ID 3  →  <EOS>   end of sequence
+//  ID 0  ->  <PAD>   padding (zero embedding, masked in attn)
+//  ID 1  ->  <UNK>   unknown analysis
+//  ID 2  ->  <BOS>   beginning of sequence
+//  ID 3  ->  <EOS>   end of sequence
 //
 //  The first call to add() with any of these strings returns
 //  the reserved ID rather than allocating a new one.
@@ -171,7 +171,7 @@ public:
             const std::vector<std::string>& analyses,
             std::size_t max_vocab = 0)
     {
-        // Count frequencies (skip specials — they're pre-inserted)
+        // Count frequencies (skip specials, they're pre-inserted)
         std::unordered_map<std::string, uint64_t> freq;
         for (const auto& a : analyses) {
             std::string key = normalise_s(a);

@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  MultiHeadAttention.hpp  —  Multi-head self-attention
+//  MultiHeadAttention.hpp, Multi-head self-attention
 //
 //  Splits d_model into h independent "heads", runs scaled
 //  dot-product attention in each head's subspace, then
@@ -86,7 +86,7 @@ public:
         : d_model_(d_model)
         , n_heads_(n_heads)
         , d_k_(d_model / n_heads)
-        // Weight matrices — full projections
+        // Weight matrices, full projections
         , W_Q_(d_model, d_model, 0.f)   // [d_model × d_model]
         , W_K_(d_model, d_model, 0.f)
         , W_V_(d_model, d_model, 0.f)
@@ -126,13 +126,13 @@ public:
         if (X.cols != d_model_)
             throw std::invalid_argument("MHA forward: X.cols != d_model");
 
-        // Project X → Q, K, V for all heads at once
-        // Q_full [seq_len × d_model] — head h occupies cols [h*d_k, (h+1)*d_k)
+        // Project X -> Q, K, V for all heads at once
+        // Q_full [seq_len × d_model], head h occupies cols [h*d_k, (h+1)*d_k)
         Matrix2D Q_full = matmul(X, W_Q_);  // [seq_len × d_model]
         Matrix2D K_full = matmul(X, W_K_);  // [seq_len × d_model]
         Matrix2D V_full = matmul(X, W_V_);  // [seq_len × d_model]
 
-        // Concat buffer — filled head by head
+        // Concat buffer, filled head by head
         Matrix2D concat(seq_len, d_model_, 0.f);  // [seq_len × d_model]
 
         cache.heads.resize(n_heads_);
@@ -200,7 +200,7 @@ public:
             // Slice this head's gradient from dConcat
             Matrix2D dA_h = slice_cols(dConcat, h * d_k_, d_k_);  // [seq_len × d_k]
 
-            // Attention backward → dQ_h, dK_h, dV_h
+            // Attention backward -> dQ_h, dK_h, dV_h
             auto grads = ScaledDotProductAttention::backward(
                 dA_h, cache.heads[h]);
 
@@ -220,11 +220,11 @@ public:
                 write_cols_add(dW_V_, g, h * d_k_);
             }
 
-            // dX += dQ_h · W_Q_hᵀ  [seq_len × d_model] ← accumulated
+            // dX += dQ_h · W_Q_hᵀ  [seq_len × d_model] <- accumulated
             {
                 Matrix2D W_Q_h = slice_cols(W_Q_, h * d_k_, d_k_);  // [d_model × d_k]
                 auto g = matmul_bt(grads.dQ, W_Q_h);  // [seq_len × d_model]... wait
-                // matmul_bt(A[seq×dk], B[d_model×dk]) → [seq × d_model] ✓
+                // matmul_bt(A[seq×dk], B[d_model×dk]) -> [seq × d_model] 
                 mat_add_inplace(dX, g);
             }
             {
@@ -244,7 +244,7 @@ public:
 
     // ── Parameter update ──────────────────────────────────
 
-    // Simple SGD — AdamW replaces this in the training loop.
+    // Simple SGD, AdamW replaces this in the training loop.
     void sgd_step(float lr) {
         mat_axpy(-lr, dW_Q_, W_Q_);
         mat_axpy(-lr, dW_K_, W_K_);
@@ -307,7 +307,7 @@ private:
     // ── Column slice helpers ──────────────────────────────
 
     // Extract columns [col_start, col_start+n_cols) from M
-    // M [rows × cols] → out [rows × n_cols]
+    // M [rows × cols] -> out [rows × n_cols]
     static Matrix2D slice_cols(const Matrix2D& M,
                                 std::size_t col_start,
                                 std::size_t n_cols)

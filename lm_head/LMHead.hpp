@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  LMHead.hpp  —  Language model head
+//  LMHead.hpp, Language model head
 //
 //  Takes the final transformer block's output and produces
 //  a probability distribution over the vocabulary.
@@ -30,7 +30,7 @@
 //
 //    dLogits[i, j] = (Probs[i, j] − 1{j == t_i}) / n_real
 //
-//  This is the standard result — the gradient is just the
+//  This is the standard result, the gradient is just the
 //  predicted probability minus the one-hot target, scaled.
 //  Masked positions get zero gradient.
 //
@@ -45,7 +45,7 @@
 //  W = Eᵀ.  This halves the parameter count and often
 //  improves performance.  We support it via tie_weights().
 //  When tied, dW is accumulated into dE instead.
-//  Not enabled by default — set explicitly before training.
+//  Not enabled by default, set explicitly before training.
 // ============================================================
 
 #include "../embed/Embedding.hpp"
@@ -96,7 +96,7 @@ public:
     // ── Weight tying ──────────────────────────────────────
 
     // Tie projection weights to the embedding table.
-    // After calling this, W_ is not used — forward() reads E
+    // After calling this, W_ is not used, forward() reads E
     // directly and backward() writes into dE instead of dW_.
     //
     // @param E   embedding weight matrix   [vocab_size × d_model]
@@ -128,14 +128,14 @@ public:
 
         // Logits = H · Wᵀ_effective + b
         // When tied: W_eff = Eᵀ  so  H · Eᵀᵀ = H · E... wait:
-        // E is [vocab_size × d_model], so H · Eᵀ gives [seq × vocab] ✓
+        // E is [vocab_size × d_model], so H · Eᵀ gives [seq × vocab] 
         Matrix2D logits(seq_len, vocab_size_);
 
         if (is_tied()) {
-            // H [seq × d_model] · Eᵀ [d_model × vocab] → [seq × vocab]
+            // H [seq × d_model] · Eᵀ [d_model × vocab] -> [seq × vocab]
             logits = matmul_bt(H, *tied_E_);   // matmul_bt(A,B) = A·Bᵀ
                                                 // tied_E_ is [vocab × d_model]
-                                                // so Bᵀ = [d_model × vocab] ✓
+                                                // so Bᵀ = [d_model × vocab] 
         } else {
             logits = matmul(H, W_);            // [seq × vocab]
         }
@@ -227,10 +227,10 @@ public:
 
         if (is_tied()) {
             // dE += Hᵀ · dLogits   (tied_E_ is [vocab × d_model])
-            // We need [vocab × d_model] ← dLogitsᵀ · H
+            // We need [vocab × d_model] <- dLogitsᵀ · H
             // i.e. for each vocab v, d_model d:
             //   dE[v,d] += sum_i dLogits[i,v] * H[i,d]
-            // = matmul_at(dLogits, H) gives [vocab × d_model] ✓
+            // = matmul_at(dLogits, H) gives [vocab × d_model] 
             auto g = matmul_at(dLogits, cache.H);
             for (std::size_t i = 0; i < tied_dE_->data.size(); ++i)
                 tied_dE_->data[i] += g.data[i];

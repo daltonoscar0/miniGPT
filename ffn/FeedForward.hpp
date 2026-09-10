@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  FeedForward.hpp  —  Position-wise feedforward sublayer
+//  FeedForward.hpp, Position-wise feedforward sublayer
 //
 //  Applied independently to each token position after attention.
 //  Two linear transformations with a ReLU in between:
@@ -24,12 +24,12 @@
 //  expands into a higher-dimensional space where the model can
 //  represent more complex functions, then projects back down.
 //  At d_model=128, d_ff=512 gives ~131K parameters per layer
-//  in the FFN alone — the majority of the model's capacity.
+//  in the FFN alone, the majority of the model's capacity.
 //
 //  Why ReLU and not GELU?
 //  ──────────────────────
 //  GELU is slightly better empirically but its backward pass
-//  requires computing the Gaussian CDF — more complexity for
+//  requires computing the Gaussian CDF, more complexity for
 //  marginal gain at this scale.  ReLU's backward is just a
 //  binary mask (1 where H>0, 0 elsewhere), which is trivial
 //  to implement and verify correctly.

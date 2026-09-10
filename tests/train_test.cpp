@@ -1,4 +1,4 @@
-// train_test.cpp  —  Tests for AdamW, MiniGPT model, and Trainer
+// train_test.cpp, Tests for AdamW, MiniGPT model, and Trainer
 //
 // Build (from miniGPT/):
 //   make train_test && ./train_test

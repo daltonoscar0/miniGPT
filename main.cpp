@@ -1,5 +1,5 @@
 // ============================================================
-//  main.cpp  —  miniGPT driver program
+//  main.cpp, miniGPT driver program
 //
 //  Build:
 //    make run

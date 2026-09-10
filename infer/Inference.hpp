@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  Inference.hpp  —  Text generation from a trained MiniGPT
+//  Inference.hpp, Text generation from a trained MiniGPT
 //
 //  Takes a prompt (as analysis strings), encodes it, runs the
 //  model forward pass, picks the next token, appends it to the
@@ -119,7 +119,7 @@ public:
             std::size_t gen_pos = n - 1;
 
             // Apply temperature scaling to logits at gen_pos
-            // (work from probs — convert back via log, scale, re-softmax)
+            // (work from probs, convert back via log, scale, re-softmax)
             // Clamp temperature to a small positive floor: temperature=0
             // would divide by zero and produce NaN/Inf logits.
             const float temp = std::max(cfg.temperature, 1e-6f);
@@ -193,7 +193,7 @@ public:
 
     // Compute perplexity of a sequence under the model.
     // Perplexity = exp(average cross-entropy loss).
-    // Lower is better — a perplexity of V means the model is
+    // Lower is better, a perplexity of V means the model is
     // as uncertain as a uniform distribution over V tokens.
     //
     // @param analyses  full sequence of analysis strings
@@ -210,7 +210,7 @@ public:
             pair.input.ids, pair.input.mask,
             pair.target.ids, cache);
 
-        // Don't backprop — this is inference only
+        // Don't backprop, this is inference only
         model_.zero_grad();
 
         return std::exp(loss);

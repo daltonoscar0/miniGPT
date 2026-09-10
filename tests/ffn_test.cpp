@@ -1,4 +1,4 @@
-// ffn_test.cpp  —  Unit tests for FeedForward sublayer
+// ffn_test.cpp, Unit tests for FeedForward sublayer
 //
 // Build (from miniGPT/):
 //   make ffn_test && ./ffn_test
@@ -149,7 +149,7 @@ void test_forward_all_negative_input() {
     FeedForward ffn(4, 8, 42);
     // Set W1 and b1 to large negatives
     for (float& v : ffn.W1().data) v = -10.f;
-    // Input all positive → W1 negative → H_pre all negative → H=0
+    // Input all positive -> W1 negative -> H_pre all negative -> H=0
     Matrix2D X(2, 4, 1.f);
     FFNCache cache;
     (void)ffn.forward(X, cache);
@@ -224,7 +224,7 @@ void test_backward_zero_when_relu_dead() {
     FFNCache cache;
     (void)ffn.forward(X, cache);
 
-    // All H == 0 → relu_mask == 0 → dH_pre == 0 → dW1 == 0
+    // All H == 0 -> relu_mask == 0 -> dH_pre == 0 -> dW1 == 0
     Matrix2D dOut(2, 4, 1.f);
     (void)ffn.backward(dOut, cache);
 

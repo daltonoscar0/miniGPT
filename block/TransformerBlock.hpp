@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-//  TransformerBlock.hpp  —  Single transformer block
+//  TransformerBlock.hpp, Single transformer block
 //
 //  Pre-norm GPT-style layout:
 //

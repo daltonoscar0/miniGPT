@@ -1,4 +1,4 @@
-// infer_test.cpp  —  Tests for Inference engine
+// infer_test.cpp, Tests for Inference engine
 //
 // Build (from miniGPT/):
 //   make infer_test && ./infer_test
@@ -85,7 +85,7 @@ void test_greedy_returns_tokens() {
 
     auto tokens = infer.generate({"the+DET", "cat+N+SG"}, gcfg);
     CHECK(tokens.size() <= 5);
-    CHECK(!tokens.empty() || true);  // may stop at EOS — that's fine
+    CHECK(!tokens.empty() || true);  // may stop at EOS, that's fine
 }
 
 void test_greedy_deterministic() {
@@ -170,7 +170,7 @@ void test_top_k_sampling_varies() {
     gcfg.max_new_tokens = 5;
     gcfg.top_k = vocab.size();  // sample from full distribution
 
-    // Run with different seeds — at least some should differ
+    // Run with different seeds, at least some should differ
     std::vector<std::vector<std::string>> results;
     for (uint32_t seed = 0; seed < 10; ++seed) {
         gcfg.seed = seed;

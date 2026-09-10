@@ -1,4 +1,4 @@
-// attn_test.cpp  —  Unit tests for scaled dot-product attention
+// attn_test.cpp, Unit tests for scaled dot-product attention
 //
 // Build (from miniGPT/):
 //   make attn_test && ./attn_test
@@ -91,7 +91,7 @@ void test_matmul() {
 
 void test_matmul_bt() {
     SECTION("matmul_bt: A · Bᵀ");
-    // A [2×3], B [2×3] → C [2×2]  (C = A · Bᵀ)
+    // A [2×3], B [2×3] -> C [2×2]  (C = A · Bᵀ)
     Matrix2D A(2,3), B(2,3);
     A.at(0,0)=1; A.at(0,1)=0; A.at(0,2)=0;
     A.at(1,0)=0; A.at(1,1)=1; A.at(1,2)=0;
@@ -273,7 +273,7 @@ void test_scaling_by_sqrt_dk() {
     K.at(0,0) = 1.f;
     K.at(1,1) = 1.f;
 
-    // QKᵀ[0,0] = 1, QKᵀ[0,1] = 0 → after scaling: 1/√4=0.5, 0
+    // QKᵀ[0,0] = 1, QKᵀ[0,1] = 0 -> after scaling: 1/√4=0.5, 0
     auto V = fill(seq, dk, 1.f);
     AttentionCache cache;
     (void)ScaledDotProductAttention::forward(

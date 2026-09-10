@@ -1,4 +1,4 @@
-// lmhead_test.cpp  —  Unit tests for LMHead
+// lmhead_test.cpp, Unit tests for LMHead
 //
 // Build (from miniGPT/):
 //   make lmhead_test && ./lmhead_test
@@ -198,7 +198,7 @@ void test_cross_entropy_dlogits_pad_is_zero() {
     std::vector<TokenID> targets = {2, kPAD_ID, 8, kPAD_ID};
     auto result = LMHead::cross_entropy(probs, targets);
 
-    // Positions 1 and 3 are padding — dLogits must be zero
+    // Positions 1 and 3 are padding, dLogits must be zero
     for (std::size_t v = 0; v < 10; ++v) {
         CHECK(result.dLogits.at(1, v) == 0.f);
         CHECK(result.dLogits.at(3, v) == 0.f);
