@@ -1,5 +1,7 @@
 # miniGPT
 
+[![tests](https://github.com/daltonoscar0/miniGPT/actions/workflows/tests.yml/badge.svg)](https://github.com/daltonoscar0/miniGPT/actions/workflows/tests.yml)
+
 A GPT-style transformer language model built from scratch in C++17, no
 PyTorch, no BLAS, no autograd. Every component, including the full backward
 pass, is implemented and tested by hand.

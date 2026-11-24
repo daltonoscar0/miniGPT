@@ -1,0 +1,67 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  core:
+    name: Core tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compiler version
+        run: g++ --version
+
+      # `make test` builds and runs the eleven core suites. They are
+      # header-only and self-contained: no sibling checkouts, no data, no
+      # dependencies. This is the repo's own test target.
+      - name: Build and run the core tests
+        run: make test
+
+  pipeline:
+    name: Pipeline integration (cross-repo)
+    runs-on: ubuntu-latest
+
+    steps:
+      # The Makefile's pipeline_test target compiles against two sibling
+      # checkouts, SCALPEL_DIR = ../Scalpel and MORPHOLOGY_DIR = ../morphology,
+      # so all three repositories are laid out side by side under the
+      # workspace. `morphology` is the directory name the Makefile expects for
+      # Finite-State-Morphological-Analysis.
+      - name: Check out miniGPT
+        uses: actions/checkout@v4
+        with:
+          path: miniGPT
+
+      - name: Check out Scalpel
+        uses: actions/checkout@v4
+        with:
+          repository: daltonoscar0/Scalpel
+          ref: main
+          path: Scalpel
+
+      - name: Check out the morphology analyzer
+        uses: actions/checkout@v4
+        with:
+          repository: daltonoscar0/Finite-State-Morphological-Analysis
+          ref: main
+          path: morphology
+
+      # KNOWN FAILURE: 30/32 at the time of writing. Two assertions in
+      # tests/pipeline_test.cpp do not hold against the current morphology and
+      # Scalpel code:
+      #
+      #   pipeline_test.cpp:78  any_contains(s, "sit+V+PAST")
+      #       "sat" does not come back as the irregular past of "sit".
+      #   pipeline_test.cpp:91  sentences.size() == 2
+      #       "Dogs run. Cats sleep." does not segment into two sentences.
+      #
+      # These are real cross-repo integration breaks, not flakes, and they are
+      # deliberately left failing rather than relaxed. `make test` above is
+      # unaffected and stays green.
+      - name: Build and run the pipeline test
+        working-directory: miniGPT
+        run: make test_pipeline
